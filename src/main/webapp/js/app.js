@@ -24,8 +24,13 @@ function onSuccess(googleUser) {
     $('#g-signin').hide();
     $('#g-signout').show();
 
-    $.get("/ajax", id_token, function(data) {
-        console.log(data);
+    $.ajax("/ajax", {
+        method: "POST",
+        data: id_token,
+        dataType: "json",
+        success: function(data, status, jqXHR) {
+            console.log(data);
+        }
     });
 
 }
