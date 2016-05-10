@@ -17,6 +17,11 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Eclipse Junk
+.settings/
+target/
+war/
+
 # =========================
 # Operating System Files
 # =========================
