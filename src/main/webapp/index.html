@@ -1,19 +1,75 @@
 <!DOCTYPE html>
 <html>
-	<head>
-    	<link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
-    	<meta name="google-signin-client_id" content="929037254631-v0vgejggdio3t9gtolq8c0v89mbpvpsr.apps.googleusercontent.com">
-    	<meta name="google-signin-scope" content="profile email">
-    	<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
-    	<script src="https://apis.google.com/js/platform.js" async defer></script>
-    	<script src="/js/app.js"></script>
-	</head>
+    <head>
+        <meta name="google-signin-client_id" content="929037254631-v0vgejggdio3t9gtolq8c0v89mbpvpsr.apps.googleusercontent.com">
+        <meta name="google-signin-scope" content="profile email">
 
-	<body>
+        <link type="text/css" rel="stylesheet" href="css/normalize.css"/>
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+        <link type="text/css" rel="stylesheet" href="css/font.css"/>
+        <link type="text/css" rel="stylesheet" href="css/main.css"/>
 
-		<div id="g-signin" data-theme="dark" data-width="250" data-height="50" data-longtitle="true"></div>
-		
-		<a id="g-signout" href="#" onclick="signOut();">Sign out</a>
-		
-	</body>
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="js/site.js"></script>
+        <script src="js/app.js"></script>
+    </head>
+
+    <body>
+
+        <header>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                    <a href="http://www.mevo.co.nz" class="brand-logo"><img src="img/logo-blue-app.png"/></a>
+                    <div class="google-profile right">
+                        <a id="g-signout" href="#" onclick="signOut();">Sign out</a>
+                    </div>
+                </div>
+            </nav>
+            <ul id="slide-out" class="side-nav fixed">
+                <li><a href="#section-vehicles">Book a Vehicle</a></li>
+                <li><a href="#section-account" class="active">Account</a></li>
+                <li><a href="#section-billing">Plan &amp; Billing</a></li>
+                <li><a href="#section-faq">FAQ</a></li>
+            </ul>
+        </header>
+
+        <main>
+            <section id="section-login">
+                <div class="container center-align">
+                    <div class="login-wrapper">
+                        <p>Sign in with your Google account to get started</p>
+                        <div id="g-signin" data-theme="dark" data-width="250" data-height="50" data-longtitle="true"></div>
+                    </div>
+                </div>
+            </section>
+            <section id="section-vehicles" class="app-pane">
+                <div class="container">
+                    <p>Vehicles</p>
+                </div>
+            </section>
+            <section id="section-account" class="app-pane active">
+                <div class="container">
+                    <p>Account</p>
+                </div>
+            </section>
+            <section id="section-billing" class="app-pane">
+                <div class="container">
+                    <p>Billing</p>
+                </div>
+            </section>
+            <section id="section-faq" class="app-pane">
+                <div class="container">
+                    <p>FAQ</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+
+        </footer>
+
+    </body>
 </html>

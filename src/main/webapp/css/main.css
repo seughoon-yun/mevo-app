@@ -1,0 +1,99 @@
+html, body {
+    font-family: 'montserrat', sans-serif;
+}
+
+
+main, footer {
+    padding-left: 240px;
+}
+
+@media only screen and (max-width : 992px) {
+    main, footer {
+        padding-left: 0;
+    }
+}
+
+p {
+    font-family: 'montserratlight', sans-serif;
+    color: #989898;
+    line-height: 1.5;
+    padding: 15px 0;
+}
+
+nav {
+    box-shadow: none;
+    background-color: #D1D1D1;
+}
+
+nav .brand-logo {
+    left: 16px;
+    -moz-transform: none;
+    -o-transform: none;
+    -ms-transform: none;
+    -webkit-transform: none;
+    transform: none;
+}
+
+nav .brand-logo img {
+    height: 24px;
+}
+
+.side-nav {
+    top: 56px;
+    box-shadow: none;
+    border-right: 1px solid #d1d1d1;
+}
+
+.side-nav a.active {
+    background-color: rgba(0,0,0,0.05);
+}
+
+#section-login {
+    position: fixed;
+    top: 56px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 1200;
+    background-color: white;
+    -moz-transition: opacity 1s;
+    -o-transition: opacity 1s;
+    -webkit-transition: opacity 1s;
+    transition: opacity 1s; }
+}
+
+.login-wrapper {
+    display: inline-block;
+    width: 280px;
+    padding: 20px;
+    margin-top: 15vh;
+}
+
+#g-signin {
+    display: inline-block;
+}
+
+.app-pane {
+    position: absolute;
+    top: 56px;
+    left: 0px;
+    right: 0px;
+    display: none;
+    background-color: white;
+}
+
+.app-pane.active {
+    display: block;
+}
+
+@media only screen and (min-width: 601px) {
+    .side-nav, .app-pane, #section-login {
+        top: 64px;
+    }
+}
+
+@media only screen and (min-width: 993px) {
+    .app-pane {
+        left: 240px;
+    }
+}
