@@ -16,51 +16,58 @@
         <script src="js/app.js"></script>
     </head>
 
-    <body>
+    <body class="logged-out">
 
         <header>
             <nav>
                 <div class="nav-wrapper">
                     <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
                     <a href="http://www.mevo.co.nz" class="brand-logo"><img src="img/logo-blue-app.png"/></a>
-                    <div class="google-profile right">
+                    <div class="google-profile">
                         <a id="g-signout" href="#" onclick="signOut();">Sign out</a>
                     </div>
                 </div>
             </nav>
             <ul id="slide-out" class="side-nav fixed">
-                <li><a href="#section-vehicles">Book a Vehicle</a></li>
-                <li><a href="#section-account" class="active">Account</a></li>
-                <li><a href="#section-billing">Plan &amp; Billing</a></li>
-                <li><a href="#section-faq">FAQ</a></li>
+                <li><a href="#vehicles">Book a Vehicle</a></li>
+                <li><a href="#account" class="active">Account</a></li>
+                <li><a href="#billing">Plan &amp; Billing</a></li>
+                <li><a href="#faq">FAQ</a></li>
             </ul>
         </header>
 
-        <main>
-            <section id="section-login">
+        <main id="mevo-app">
+            <section id="login">
                 <div class="container center-align">
                     <div class="login-wrapper">
                         <p>Sign in with your Google account to get started</p>
                         <div id="g-signin" data-theme="dark" data-width="250" data-height="50" data-longtitle="true"></div>
+                        <div class="progress">
+                            <div class="indeterminate"></div>
+                            <p>Loading...</p>
+                        </div>
                     </div>
                 </div>
             </section>
-            <section id="section-vehicles" class="app-pane">
+            <section id="vehicles" class="app-pane">
                 <div class="container">
                     <p>Vehicles</p>
                 </div>
             </section>
-            <section id="section-account" class="app-pane active">
+            <section id="account" class="app-pane active">
                 <div class="container">
                     <p>Account</p>
+                    <input class="user" type="email" data-field="email" autocomplete="email" placeholder="Your Email">
+                    <input class="user" type="text" data-field="first_name" autocomplete="firstname" placeholder="First Name">
+                    <input class="user" type="text" data-field="last_name" autocomplete="lastname" placeholder="Last Name">
                 </div>
             </section>
-            <section id="section-billing" class="app-pane">
+            <section id="billing" class="app-pane">
                 <div class="container">
                     <p>Billing</p>
                 </div>
             </section>
-            <section id="section-faq" class="app-pane">
+            <section id="faq" class="app-pane">
                 <div class="container">
                     <p>FAQ</p>
                 </div>
@@ -70,6 +77,18 @@
         <footer>
 
         </footer>
+
+        <!-- Welcome Modal -->
+        <div id="modal-welcome" class="modal">
+            <div class="modal-content">
+                <h4>Welcome to Mevo</h4>
+                <p>Hey <span id="modal-welcome-name">there</span>, we're excited to have you on board!</p>
+                <p>Complete your profile to get started!</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close btn-flat">Continue</a>
+            </div>
+        </div>
 
     </body>
 </html>

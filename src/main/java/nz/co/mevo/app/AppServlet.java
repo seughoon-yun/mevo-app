@@ -2,23 +2,25 @@ package nz.co.mevo.app;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
+
 
 import static io.intercom.api.CustomAttribute.*;
 
@@ -46,75 +48,62 @@ public class AppServlet extends HttpServlet {
 		try {
 			// Get the Google Auth token
 			String token = getPayload(request.getReader());
-		
-			// Set up the token verifier
-			GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-					.setAudience(Arrays.asList(googleClientID))
-					.setIssuer("accounts.google.com")
-					.build();
-		
-			// Verify the token - throws an exception if it fails
-			GoogleIdToken idToken = verifier.verify(token);
 			
-			// Check the token isn't null - and throw an exception if it is
-			if (idToken != null) {
+			// Verify the token - throws an exception if it fails
+			JSONObject payload = verifyGoogleToken(token);
 				
-				// Get the juicy profile goodness
-				Payload payload = idToken.getPayload();
-				String email = payload.getEmail();
+			// Get the juicy profile goodness
+			String email = (String) payload.get("email");
 				
-				// Prepare to check the email in Intercom
-				Map<String, String> params = new HashMap<String, String>();
-				params.put("email", email);
+			// Prepare to check the email in Intercom
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("email", email);
 				
-				// Check if they exist already
-				try {
-					User existing = User.find(params);
+			// Check if they exist already
+			try {
+				User existing = User.find(params);
 					
-					// User exists
-					// Return a 200
-					response.setStatus(200);
-					response.getWriter().write(convertToJSON(existing).toString());
-				} catch (Exception e) {
-					// This is our first time seeing this person
-					// Get their Google details
-					String name = (String) payload.get("name");
-					String lastName = (String) payload.get("family_name");
-					String firstName = (String) payload.get("given_name");
-					String pictureURL = (String) payload.get("picture");
-					Boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+				// User exists
+				// Return a 200
+				response.setStatus(200);
+				response.getWriter().write(convertToJSON(existing).toString());
+			} catch (Exception e) {
+				// This is our first time seeing this person
+				// Get their Google details
+				String name = (String) payload.get("name");
+				String lastName = (String) payload.get("family_name");
+				String firstName = (String) payload.get("given_name");
+				String pictureURL = (String) payload.get("picture");
+				Boolean emailVerified = Boolean.valueOf((String) payload.get("email_verified"));
 					
-					// Use this to create a new Intercom user
-					User user = new User()
-							.setEmail(email)
-							.setName(name)
-							.addCustomAttribute(newStringAttribute("first_name", firstName))
-							.addCustomAttribute(newStringAttribute("middle_name", ""))
-							.addCustomAttribute(newStringAttribute("last_name", lastName))
-							.addCustomAttribute(newStringAttribute("preferred_name", ""))
-							.addCustomAttribute(newStringAttribute("date_of_birth", ""))
-							.addCustomAttribute(newStringAttribute("phone_number", ""))
-							.addCustomAttribute(newStringAttribute("licence_number", ""))
-							.addCustomAttribute(newStringAttribute("licence_version", ""))
-							.addCustomAttribute(newStringAttribute("licence_expiry_date", ""))
-							.addCustomAttribute(newStringAttribute("address_line1", ""))
-							.addCustomAttribute(newStringAttribute("address_line2", ""))
-							.addCustomAttribute(newStringAttribute("address_suburb", ""))
-							.addCustomAttribute(newStringAttribute("address_city", ""))
-							.addCustomAttribute(newStringAttribute("address_postcode", ""))
-							.addCustomAttribute(newStringAttribute("address_country", ""))
-							.addCustomAttribute(newBooleanAttribute("email_verified", emailVerified))
-							.addCustomAttribute(newStringAttribute("picture_url", pictureURL));
+				// Use this to create a new Intercom user
+				User user = new User()
+						.setEmail(email)
+						.setName(name)
+						.addCustomAttribute(newStringAttribute("first_name", firstName))
+						.addCustomAttribute(newStringAttribute("middle_name", ""))
+						.addCustomAttribute(newStringAttribute("last_name", lastName))
+						.addCustomAttribute(newStringAttribute("preferred_name", ""))
+						.addCustomAttribute(newStringAttribute("date_of_birth", ""))
+						.addCustomAttribute(newStringAttribute("phone_number", ""))
+						.addCustomAttribute(newStringAttribute("licence_number", ""))
+						.addCustomAttribute(newStringAttribute("licence_version", ""))
+						.addCustomAttribute(newStringAttribute("licence_expiry_date", ""))
+						.addCustomAttribute(newStringAttribute("address_line1", ""))
+						.addCustomAttribute(newStringAttribute("address_line2", ""))
+						.addCustomAttribute(newStringAttribute("address_suburb", ""))
+						.addCustomAttribute(newStringAttribute("address_city", ""))
+						.addCustomAttribute(newStringAttribute("address_postcode", ""))
+						.addCustomAttribute(newStringAttribute("address_country", ""))
+						.addCustomAttribute(newBooleanAttribute("email_verified", emailVerified))
+						.addCustomAttribute(newStringAttribute("picture_url", pictureURL));
 					
-					// Save them in Intercom
-					user = User.create(user);
+				// Save them in Intercom
+				user = User.create(user);
 					
-					// Return a 201
-					response.setStatus(201);
-					response.getWriter().write(convertToJSON(user).toString());
-				}
-			} else {
-				throw new IOException("Invalid request.");
+				// Return a 201
+				response.setStatus(201);
+				response.getWriter().write(convertToJSON(user).toString());
 			}
 		} catch (GeneralSecurityException e) {
 			response.setStatus(400);
@@ -137,6 +126,26 @@ public class AppServlet extends HttpServlet {
 		user = User.create(user);
 		
 		resp.getWriter().write("ho");
+	}
+	
+	private JSONObject verifyGoogleToken(String token) throws GeneralSecurityException, IOException, UnsupportedEncodingException {
+		String url = "https://www.googleapis.com/oauth2/v3/tokeninfo";
+		String charset = "UTF-8";
+		
+		String query = String.format("id_token=%s", URLEncoder.encode(token, charset));
+		
+		HttpURLConnection connection = (HttpURLConnection) new URL(url + "?" + query).openConnection();
+		
+		int responseCode = connection.getResponseCode();
+		
+		if (responseCode == HttpsURLConnection.HTTP_OK) {
+			InputStream response = connection.getInputStream();
+			Reader responseReader = new InputStreamReader(response);
+			JSONObject json = new JSONObject(getPayload(responseReader));
+			return json;
+		} else {
+			throw new GeneralSecurityException("Google Authentication Failed");
+		}	
 	}
 	
 	private String getPayload(Reader reader) throws IOException {
