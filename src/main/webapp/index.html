@@ -1,11 +1,36 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+        <title>Mevo App - Mobility on Demand</title>
+        <meta name="description" content="">
         <meta name="google-signin-client_id" content="929037254631-v0vgejggdio3t9gtolq8c0v89mbpvpsr.apps.googleusercontent.com">
         <meta name="google-signin-scope" content="profile email">
 
+        <!-- ICONS -->
+        <link rel="apple-touch-icon" sizes="57x57" href="icon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="icon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="icon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="icon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="icon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="icon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="icon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="icon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="icon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="icon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="icon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="icon/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#0b4d68">
+        <meta name="msapplication-TileImage" content="icon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#0b4d68">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
         <link type="text/css" rel="stylesheet" href="css/normalize.css"/>
         <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+        <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link type="text/css" rel="stylesheet" href="css/font.css"/>
         <link type="text/css" rel="stylesheet" href="css/main.css"/>
 
@@ -21,13 +46,24 @@
         <header>
             <nav>
                 <div class="nav-wrapper">
-                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
                     <a href="http://www.mevo.co.nz" class="brand-logo"><img src="img/logo-blue-app.png"/></a>
-                    <div class="google-profile">
-                        <a id="g-signout" href="#" onclick="signOut();">Sign out</a>
-                    </div>
+                    <a href="#" data-activates="google-profile" data-beloworigin="true" data-hover="false" data-alignment="right" data-constrainwidth="false" class="dropdown-button profile-image image-wrapper"><img class="circle" src="img/avatar.png"/><img class="circle g-profile" src="" onload="this.style.opacity = '1'"/></a>
                 </div>
             </nav>
+            <div id="google-profile" class="dropdown-content">
+                <div class="triangle"></div>
+                <div class="content">
+                    <div class="image-wrapper">
+                        <img class="circle placeholder" src="img/avatar.png"/><img class="circle g-profile" src="" onload="this.style.opacity = '1'"/>
+                    </div>
+                    <div class="text-wrapper">
+                        <p class="g-fullname">Full Name</p>
+                        <p class="g-email">Email</p>
+                        <a id="g-signout" class="btn" href="#" onclick="signOut();">Sign out</a>
+                    </div>
+                </div>
+            </div>
             <ul id="slide-out" class="side-nav fixed">
                 <li><a href="#vehicles">Book a Vehicle</a></li>
                 <li><a href="#account" class="active">Account</a></li>
@@ -41,7 +77,7 @@
                 <div class="container center-align">
                     <div class="login-wrapper">
                         <p>Sign in with your Google account to get started</p>
-                        <div id="g-signin" data-theme="dark" data-width="250" data-height="50" data-longtitle="true"></div>
+                        <div id="g-signin"></div>
                         <div class="progress">
                             <div class="indeterminate"></div>
                             <p>Loading...</p>
@@ -82,7 +118,7 @@
         <div id="modal-welcome" class="modal">
             <div class="modal-content">
                 <h4>Welcome to Mevo</h4>
-                <p>Hey <span id="modal-welcome-name">there</span>, we're excited to have you on board!</p>
+                <p>Hey <span class="g-firstname">there</span>, we're excited to have you on board!</p>
                 <p>Complete your profile to get started!</p>
             </div>
             <div class="modal-footer">

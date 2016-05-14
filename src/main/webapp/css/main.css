@@ -23,6 +23,14 @@ p {
 nav {
     box-shadow: none;
     background-color: #D1D1D1;
+    position: fixed;
+    text-align: center;
+    z-index: 1000;
+}
+
+nav .button-collapse {
+    display: none;
+    margin-left: 20px;
 }
 
 nav .brand-logo {
@@ -35,17 +43,102 @@ nav .brand-logo {
     transform: none;
 }
 
-nav .brand-logo img {
-    height: 24px;
+nav .brand-logo {
+    height: 56px;
 }
 
-nav .google-profile {
+nav .brand-logo img {
+    height: 56px;
+    padding: 12px 0px;
+}
+
+nav .profile-image {
+    height: 56px;
+    margin-right: 20px;
+    display: none;
     float: right;
+}
+
+nav .profile-image img {
+    height: 56px;
+    padding: 12px 0px;
+}
+
+nav a {
+    color: #0B4D68;
+}
+
+.image-wrapper {
+    position: relative;
+    font-size: 0px;
+}
+
+.image-wrapper img.g-profile {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    opacity: 0;
+}
+
+#google-profile {
+    overflow-y: visible;
+}
+
+#google-profile .content {
+    padding: 20px;
+    float: left;
+}
+
+#google-profile .content .image-wrapper {
+    float: left;
+    display: inline-block;
+    vertical-align: top;
+    width: 64px;
+    height: 64px;
     margin-right: 20px;
 }
 
-nav .google-profile a {
-    color: #0b4d68;
+#google-profile .content .image-wrapper img {
+    width: 64px;
+}
+
+#google-profile .content .text-wrapper {
+    float: left;
+    display: inline-block;
+    text-align: left;
+}
+
+#google-profile .content .text-wrapper p {
+    font-size: 12px;
+    padding: 0px 0px 4px 0px;
+    line-height: 1;
+}
+
+#google-profile .content .text-wrapper .g-fullname {
+    font-weight: bold;
+}
+
+#google-profile .content .text-wrapper .btn {
+    float: right;
+    margin-top: 8px;
+    font-size: 12px;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 10px;
+}
+
+#google-profile .triangle {
+    position: absolute;
+    right: 11px;
+    top: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 .side-nav {
@@ -70,6 +163,10 @@ nav .google-profile a {
     -o-transition: opacity 1s;
     -webkit-transition: opacity 1s;
     transition: opacity 1s;
+}
+
+.logged-in nav .button-collapse, .logged-in nav .profile-image {
+    display: block;
 }
 
 .logged-in #login {
@@ -120,6 +217,7 @@ nav .google-profile a {
     right: 0px;
     display: none;
     background-color: white;
+    z-index: 10;
 }
 
 .app-pane.active {
@@ -158,20 +256,98 @@ input:-ms-input-placeholder {
     color: #989898;
 }
 
-.btn-large {
-    font-size: 15px;
-    height: 52px;
-    line-height: 52px;
+.btn, .btn-large {
+    background-color: #0097BE;
+    font-family: 'montserratlight', sans-serif;
+}
+
+.btn:hover, .btn-large:hover, .btn:focus, .btn-large:focus {
+    background-color: #00ADD9;
+}
+
+.btn.btn-accent, .btn-large.btn-accent {
+    background-color: #FA6219;
+}
+
+.btn.btn-accent:hover, .btn-large.btn-accent:hover, .btn.accent:focus, .btn-large.btn-accent:focus {
+    background-color: #FF6D27;
+}
+
+.btn-fancy {
+    padding: 0 30px;
+}
+
+.btn-fancy, .btn-fancy i {
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-fancy:hover, .btn-fancy:focus {
+    padding-right: 15px;
+}
+
+.btn-fancy:hover i, .btn-fancy:focus i {
+    margin-left: 30px;
 }
 
 @media only screen and (min-width: 601px) {
     .side-nav, .app-pane, #login {
         top: 64px;
     }
+
+    nav .brand-logo {
+        height: 64px;
+    }
+
+    nav .brand-logo img {
+        height: 64px;
+        padding: 16px 0px;
+    }
+
+    nav .profile-image {
+        height: 64px;
+    }
+
+    nav .profile-image img {
+        height: 64px;
+        padding: 16px 0px;
+    }
 }
 
 @media only screen and (min-width: 993px) {
     .app-pane {
         left: 240px;
+    }
+
+    nav {
+        text-align: left;
+    }
+
+    .logged-in nav .button-collapse {
+        display: none;
+    }
+
+    #google-profile .content .image-wrapper {
+        width: 96px;
+        height: 96px;
+    }
+
+    #google-profile .content .image-wrapper img {
+        width: 96px;
+    }
+
+    #google-profile .content .text-wrapper p {
+        font-size: 15px;
+        padding: 0px 0px 6px 0px;
+    }
+
+    #google-profile .content .text-wrapper .btn {
+        margin-top: 18px;
+        font-size: 14px;
+        height: 36px;
+        line-height: 36px;
+        padding: 0 20px;
     }
 }
