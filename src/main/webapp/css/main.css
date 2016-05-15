@@ -22,7 +22,7 @@ p {
 
 nav {
     box-shadow: none;
-    background-color: #D1D1D1;
+    background-color: #0B4D68;
     position: fixed;
     text-align: center;
     z-index: 1000;
@@ -65,7 +65,7 @@ nav .profile-image img {
 }
 
 nav a {
-    color: #0B4D68;
+    color: white;
 }
 
 .image-wrapper {
