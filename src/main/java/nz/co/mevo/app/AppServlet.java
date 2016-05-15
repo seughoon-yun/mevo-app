@@ -44,13 +44,12 @@ public class AppServlet extends HttpServlet {
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		
 		try {
 			// Get the Google Auth token
 			String token = getPayload(request.getReader());
 			
 			// Verify the token - throws an exception if it fails
-			JSONObject payload = verifyGoogleToken(token);
+			JSONObject payload = getGoogleAccount(token);
 				
 			// Get the juicy profile goodness
 			String email = (String) payload.get("email");
@@ -114,21 +113,65 @@ public class AppServlet extends HttpServlet {
 		} catch (Exception e) {
 			response.setStatus(400);
 			e.printStackTrace(response.getWriter());
-		}
-		
-			
+		}	
 	}
 
 	@Override
-	public void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		User user = new User().setEmail("finn.lawrence@gmail.com");
+	public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		user = User.create(user);
-		
-		resp.getWriter().write("ho");
+		try {
+			
+			//String token = request.getParameter("payload");
+			//String userString = request.getParameter("profile");
+			
+			//response.setStatus(200);
+			//response.getWriter().write(token + " " + userString);
+			
+			// Get the request body
+			JSONObject body = new JSONObject(getPayload(request.getReader()));
+			
+			String token = (String) body.get("token");
+			
+			if (verifyGoogleToken(token)) {
+				// Token is good to go
+				JSONObject updated = (JSONObject) body.get("profile");
+				
+				User toBeSaved = convertFromJSON(updated);
+				toBeSaved = User.create(toBeSaved);
+				
+				// Return a 200
+				response.setStatus(200);
+				response.getWriter().write(convertToJSON(toBeSaved).toString());
+				
+			} else {
+				// This isn't a valid token
+				response.setStatus(401);
+				response.getWriter().write("Google authorization failed. Please log out and log back in again.");
+			}
+			 
+		} catch (IOException e) {
+			response.setStatus(400);
+			response.getWriter().write("IOException: " + e.getMessage());
+		} catch (Exception e) {
+			response.setStatus(400);
+			e.printStackTrace(response.getWriter());
+		}		
 	}
 	
-	private JSONObject verifyGoogleToken(String token) throws GeneralSecurityException, IOException, UnsupportedEncodingException {
+	private boolean verifyGoogleToken(String token) throws IOException, UnsupportedEncodingException{
+		String url = "https://www.googleapis.com/oauth2/v3/tokeninfo";
+		String charset = "UTF-8";
+		
+		String query = String.format("id_token=%s", URLEncoder.encode(token, charset));
+		
+		HttpURLConnection connection = (HttpURLConnection) new URL(url + "?" + query).openConnection();
+		
+		int responseCode = connection.getResponseCode();
+		
+		return (responseCode == HttpsURLConnection.HTTP_OK);
+	}
+	
+	private JSONObject getGoogleAccount(String token) throws GeneralSecurityException, IOException, UnsupportedEncodingException {
 		String url = "https://www.googleapis.com/oauth2/v3/tokeninfo";
 		String charset = "UTF-8";
 		

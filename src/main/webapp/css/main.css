@@ -1,5 +1,6 @@
 html, body {
     font-family: 'montserrat', sans-serif;
+    background-color: #F8F8F8;
 }
 
 
@@ -18,6 +19,18 @@ p {
     color: #989898;
     line-height: 1.5;
     padding: 15px 0;
+}
+
+h3 {
+    font-size: 20px;
+    color: #737373;
+    margin-bottom: 0px;
+}
+
+hr {
+    border-width: 1px;
+    border-style: solid !important;
+    color: #737373;
 }
 
 nav {
@@ -147,8 +160,19 @@ nav a {
     border-right: 1px solid #d1d1d1;
 }
 
-.side-nav a.active {
+.side-nav li a {
+    cursor: pointer;
+}
+
+.side-nav li a.active {
     background-color: rgba(0,0,0,0.05);
+}
+
+.side-nav li a i {
+    font-size: 1rem;
+    padding: 7px 5px 0px 5px;
+    position: relative;
+    top: 0.15rem;
 }
 
 #login {
@@ -158,7 +182,7 @@ nav a {
     bottom: 0px;
     left: 0px;
     z-index: 1200;
-    background-color: white;
+    background-color: #F8F8F8;
     -moz-transition: opacity 1s;
     -o-transition: opacity 1s;
     -webkit-transition: opacity 1s;
@@ -215,8 +239,9 @@ nav a {
     top: 56px;
     left: 0px;
     right: 0px;
+    padding: 20px 0px;
     display: none;
-    background-color: white;
+    background-color: #F8F8F8;
     z-index: 10;
 }
 
@@ -224,10 +249,29 @@ nav a {
     display: block;
 }
 
+#account.changed .save-wrapper {
+    bottom: 0px;
+}
+
+#account.loading {
+    cursor: wait;
+    pointer-events: none;
+}
+
+#account .spacer {
+    height: 150px;
+    width: 100%;
+}
+
 input:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
-    border: 2px solid;
+    background-color: #E8E8E8;
+    color: #737373;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    border-top: none;
+    border-bottom: 1px solid;
     border-color: #D1D1D1;
-    border-radius: 4px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
     box-sizing: border-box;
     height: auto;
     padding: 15px;
@@ -235,9 +279,18 @@ input:not([type]), input[type=text], input[type=password], input[type=email], in
 }
 
 input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 2px solid;
+    border-bottom: 1px solid;
     border-color: #D1D1D1;
-    box-shadow: none;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
+}
+
+input:not([type]):disabled, input:not([type])[readonly="readonly"], input[type=text]:disabled, input[type=text][readonly="readonly"], input[type=password]:disabled, input[type=password][readonly="readonly"], input[type=email]:disabled, input[type=email][readonly="readonly"], input[type=url]:disabled, input[type=url][readonly="readonly"], input[type=time]:disabled, input[type=time][readonly="readonly"], input[type=date]:disabled, input[type=date][readonly="readonly"], input[type=datetime]:disabled, input[type=datetime][readonly="readonly"], input[type=datetime-local]:disabled, input[type=datetime-local][readonly="readonly"], input[type=tel]:disabled, input[type=tel][readonly="readonly"], input[type=number]:disabled, input[type=number][readonly="readonly"], input[type=search]:disabled, input[type=search][readonly="readonly"], textarea.materialize-textarea:disabled, textarea.materialize-textarea[readonly="readonly"] {
+    cursor: not-allowed;
+    background-color: #F8F8F8;
+    color: #D1D1D1;
+    border-bottom: 1px solid;
+    border-color: #D1D1D1;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
 }
 
 input::-webkit-input-placeholder {
@@ -254,6 +307,34 @@ input::-moz-placeholder {
 
 input:-ms-input-placeholder {
     color: #989898;
+}
+
+.input-wrapper label {
+    font-size: 14px;
+}
+
+.input-wrapper label span {
+    color: #D1D1D1;
+}
+
+.input-wrapper input {
+    font-size: 14px;
+    margin-top: 7px;
+    padding: 7px;
+}
+
+.save-wrapper {
+    position: fixed;
+    padding: 20px 0px;
+    bottom: -76px;
+    left: 0px;
+    right: 0px;
+    background-color: white;
+    border-top: 1px solid #d1d1d1;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .btn, .btn-large {
@@ -292,6 +373,35 @@ input:-ms-input-placeholder {
     margin-left: 30px;
 }
 
+.picker__date-display {
+    background-color: #0B4D68;
+}
+
+.picker__weekday-display {
+    background-color: #073242;
+}
+
+.picker__nav--prev:hover, .picker__nav--next:hover, button.picker__today:focus, button.picker__clear:focus, button.picker__close:focus {
+    background-color: #f5f5f5;;
+}
+
+.picker__close, .picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
+    color: white;
+    background-color: #FA6219;
+}
+
+.picker__today, .picker__day.picker__day--today {
+    color: #FA6219;
+}
+
+.picker__nav--prev:before {
+    border-right-color: #0B4D68;
+}
+
+.picker__nav--next:before {
+    border-left-color: #0B4D68;
+}
+
 @media only screen and (min-width: 601px) {
     .side-nav, .app-pane, #login {
         top: 64px;
@@ -317,7 +427,7 @@ input:-ms-input-placeholder {
 }
 
 @media only screen and (min-width: 993px) {
-    .app-pane {
+    .app-pane, .save-wrapper {
         left: 240px;
     }
 
@@ -350,4 +460,30 @@ input:-ms-input-placeholder {
         line-height: 36px;
         padding: 0 20px;
     }
+}
+
+#intercom-container .intercom-sheet-header, #intercom-container .intercom-sheet-header-conversations-button, #intercom-container .intercom-sheet-header-close-button, #intercom-container .intercom-sheet-header-minimize-button {
+    height: 56px !important; 
+}
+
+#intercom-container .intercom-sheet-header-generic-title, #intercom-container .intercom-sheet-header-title {
+    line-height: 56px !important; 
+}
+
+#intercom-container .intercom-sheet-content {
+    top: 56px !important; 
+}
+
+@media only screen and (min-width: 601px) {
+    #intercom-container .intercom-sheet-header, #intercom-container .intercom-sheet-header-conversations-button, #intercom-container .intercom-sheet-header-close-button, #intercom-container .intercom-sheet-header-minimize-button {
+        height: 64px !important; 
+    }
+    
+    #intercom-container .intercom-sheet-header-generic-title, #intercom-container .intercom-sheet-header-title {
+        line-height: 64px !important; 
+    }
+    
+    #intercom-container .intercom-sheet-content {
+        top: 64px !important; 
+    } 
 }

@@ -37,8 +37,45 @@
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUWRQqEVclRg-AX50RGOSxoD88MJO8jVU&libraries=places&callback=initAutocomplete"
+        async defer></script>
         <script src="js/site.js"></script>
+        <script src="js/map.js"></script>
         <script src="js/app.js"></script>
+
+        <script>
+            (function(){
+                var w=window;
+                var ic=w.Intercom;
+                if (typeof ic==="function") {
+                    ic('reattach_activator');
+                    ic('update',intercomSettings);
+                } else {
+                    var d=document;
+                    var i=function() {
+                        i.c(arguments)
+                    };
+                    i.q=[];
+                    i.c=function(args) {
+                        i.q.push(args)
+                    };
+                    w.Intercom=i;
+                    function l() {
+                        var s=d.createElement('script');
+                        s.type='text/javascript';
+                        s.async=true;
+                        s.src='https://widget.intercom.io/widget/ou4uas01';
+                        var x=d.getElementsByTagName('script')[0];
+                        x.parentNode.insertBefore(s,x);
+                    }
+                    if(w.attachEvent) {
+                        w.attachEvent('onload',l);
+                    } else {
+                        w.addEventListener('load',l,false);
+                    }
+                }
+            })()
+        </script>
     </head>
 
     <body class="logged-out">
@@ -60,7 +97,7 @@
                     <div class="text-wrapper">
                         <p class="g-fullname">Full Name</p>
                         <p class="g-email">Email</p>
-                        <a id="g-signout" class="btn" href="#" onclick="signOut();">Sign out</a>
+                        <a id="g-signout" class="btn btn-accent" href="#" onclick="signOut();">Sign out</a>
                     </div>
                 </div>
             </div>
@@ -68,7 +105,7 @@
                 <li><a href="#vehicles" class="app-pane-activator">Book a Vehicle</a></li>
                 <li><a href="#account" class="app-pane-activator active">Account</a></li>
                 <li><a href="#billing" class="app-pane-activator">Plan &amp; Billing</a></li>
-                <li><a href="#support">Contact Support <i class="material-icons">open_in_new</i></a></li>
+                <li><a onclick="Intercom('show');">Contact Support <i class="material-icons">open_in_new</i></a></li>
             </ul>
         </header>
 
@@ -90,12 +127,148 @@
                     <p>Vehicles</p>
                 </div>
             </section>
-            <section id="account" class="app-pane active">
-                <div class="container">
-                    <p>Account</p>
-                    <input class="user" type="email" data-field="email" autocomplete="email" placeholder="Your Email">
-                    <input class="user" type="text" data-field="first_name" autocomplete="firstname" placeholder="First Name">
-                    <input class="user" type="text" data-field="last_name" autocomplete="lastname" placeholder="Last Name">
+            <section id="account" class="app-pane active no-change">
+                <form class="container">
+                    <div class="row">
+                        <div class="col s12">
+                            <h3>Personal Details</h3>
+                            <hr/>
+                            <label>When we contact you, we'll use these details</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_preferred_name">Preferred Name</label>
+                                <input id="input_preferred_name" class="user" type="text" data-field="preferred_name" autocomplete="nickname">
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_phone_number">Contact Phone</label>
+                                <input id="input_phone_number" class="user" type="tel" data-field="phone_number" autocomplete="tel-national">
+                            </div>
+                        </div>
+                        <div class="col s8 m6">
+                            <div class="input-wrapper">
+                                <label for="input_email">Email Address</label>
+                                <input readonly="readonly" id="input_email" class="user tooltipped" type="email" data-field="email" autocomplete="email" data-position="right" data-delay="50" data-tooltip="Linked to your Google Account">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12">
+                            <h3>Driver Licence Details</h3>
+                            <hr/>
+                            <label>Please enter these as they appear on your Driver Licence</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_first_name">Given Name</label>
+                                <input id="input_first_name" class="user" type="text" data-field="first_name" autocomplete="given-name">
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_last_name">Family Name</label>
+                                <input id="input_last_name" class="user" type="text" data-field="last_name" autocomplete="family-name">
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_middle_name">Middle Name(s)</label>
+                                <input id="input_middle_name" class="user" type="text" data-field="middle_name" autocomplete="additional-name">
+                            </div>
+                        </div>
+                        <div class="col s6 m3">
+                            <div class="input-wrapper">
+                                <label for="input_date_of_birth">Date of Birth</label>
+                                <input id="input_date_of_birth" class="user datepicker" type="date" data-field="date_of_birth">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_licence_number">Licence Number <span>(5a)</span></label>
+                                <input id="input_licence_number" class="user" type="text" data-field="licence_number">
+                            </div>
+                        </div>
+                        <div class="col s6 m3">
+                            <div class="input-wrapper">
+                                <label for="input_licence_version">Version <span>(5b)</span></label>
+                                <input id="input_licence_version" class="user" type="text" data-field="licence_version">
+                            </div>
+                        </div>
+                        <div class="col s6 m3">
+                            <div class="input-wrapper">
+                                <label for="input_licence_expiry_date">Expiry Date <span>(4b)</span></label>
+                                <input id="input_licence_expiry_date" class="user datepicker" type="date" data-field="licence_expiry_date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <h3>Address Details</h3>
+                            <hr/>
+                            <label></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="input-wrapper">
+                                <label for="autocomplete">Address Search <span>powered by Google</span></label>
+                                <input id="autocomplete" type="text" placeholder="Enter your address...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_address_line1">Address <span>Line 1</span></label>
+                                <input disabled id="input_address_line1" class="user address" type="text" data-field="address_line1">
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_address_line2">Address <span>Line 2</span></label>
+                                <input disabled id="input_address_line2" class="user address" type="text" data-field="address_line2">
+                            </div>
+                        </div>
+                        <div class="col s8 m6">
+                            <div class="input-wrapper">
+                                <label for="input_address_suburb">Suburb</label>
+                                <input disabled id="input_address_suburb" class="user address" type="text" data-field="address_suburb" data-gmaps-format="long_name">
+                            </div>
+                        </div>
+                        <div class="col s4 m3">
+                            <div class="input-wrapper">
+                                <label for="input_address_postcode">Postcode</label>
+                                <input disabled id="input_address_postcode" class="user address" type="text" data-field="address_postcode" data-gmaps-format="long_name">
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_address_city">City</label>
+                                <input disabled id="input_address_city" class="user address" type="text" data-field="address_city" data-gmaps-format="long_name">
+                            </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="input-wrapper">
+                                <label for="input_address_country">Country</label>
+                                <input disabled id="input_address_country" class="user address" type="text" data-field="address_country" data-gmaps-format="long_name">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="spacer"></div>
+                <div class="save-wrapper">
+                    <div class="container">
+                        <a class="btn btn-accent right" onclick="saveData();">Save</a>
+                    </div>
                 </div>
             </section>
             <section id="billing" class="app-pane">
