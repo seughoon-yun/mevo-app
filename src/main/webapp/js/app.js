@@ -1,5 +1,6 @@
 var id_token;
 var currentUser;
+var surveyLink = 'https://mevo.typeform.com/to/HeuuJH?'
 
 $(document).ready(function() {
     $('input.user').keyup(function() {
@@ -25,17 +26,45 @@ function initialiseApp(user, isNewUser) {
             email: user.email,
             created_at: createdDate
         });
-        $('#modal-welcome').openModal({
-            dismissible: false
-        });
+        //$('#modal-welcome').openModal({
+        //    dismissible: false
+        //});
     } else {
         window.Intercom("boot", {
             app_id: 'ou4uas01',
             email: user.email
         });
     }
-    $('#login').css('opacity', 0);
-    setTimeout(setAppState("logged-in"), 1000);
+
+    // Make a first name
+    var firstname = "there";
+    if (user.name) {
+        var namepieces = user.name.split(" ");
+        if (namepieces[0]) {
+            firstname = namepieces[0];
+        } else {
+            firstname = user.name;
+        }
+    }
+
+    // Make the survey link
+    surveyLink = surveyLink + "firstname=" + firstname + "&email=" + user.email;
+
+    $('.survey-button').attr("href", surveyLink);
+
+    // Check that we're not being blocked by aggressive adblockers
+    console.log("Intercom: " + intercomLoaded);
+    console.log("Google Maps: " + googleMapsLoaded);
+    if(!googleMapsLoaded || !intercomLoaded) {
+        $('#modal-blocked').openModal({
+            dismissible: false
+        });
+    } else {
+        parseParameters();
+        
+        $('#login').css('opacity', 0);
+        setTimeout(setAppState("logged-in"), 1000);
+    }
 }
 
 function loadData(user) {
@@ -81,9 +110,9 @@ function saveData() {
             token: id_token,
             profile: currentUser
         };
-        
+
         var payloadString = JSON.stringify(payload);
-        
+
         setAccountLoading(true);
 
         $.ajax("/ajax", {
@@ -93,6 +122,10 @@ function saveData() {
             success: function(user, status, jqXHR) {
                 console.log(user);
                 setAccountLoading(false);
+                $('input.user').each(function() {
+                    var $this = $(this);
+                    $this.data("initial", $this.val());
+                });
                 Materialize.toast('Changes saved', 4000);
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -171,6 +204,16 @@ function setAccountLoading(loading) {
     } else {
         $('#account').removeClass("loading");
         setAccountChanged(false);
+    }
+}
+
+function parseParameters() {
+    var pageURL = window.location.href;
+    var surveyCompleted = url('?waitlist_survey_completed', pageURL);
+    
+    if (surveyCompleted === "true") {
+        console.log("Survey Completed");
+        Intercom('trackEvent', 'survey_completed');
     }
 }
 

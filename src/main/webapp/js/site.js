@@ -1,4 +1,8 @@
+var intercomLoaded = false;
+var googleMapsLoaded = false;
+
 $(document).ready(function() {
+    
     $(".button-collapse").sideNav();
 
     $('#input_date_of_birth').pickadate({
@@ -45,4 +49,9 @@ $(document).ready(function() {
             return "There are unsaved changes!"
         }
     }
+});
+
+$(window).load(function() {
+    console.log("Intercom: " + intercomLoaded);
+    console.log("Google Maps: " + googleMapsLoaded);
 });
