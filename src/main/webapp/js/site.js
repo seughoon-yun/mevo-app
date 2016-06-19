@@ -36,6 +36,7 @@ $(document).ready(function() {
             var targetPane = $(this).attr('href');
             $('.app-pane').removeClass("active");
             $(targetPane).addClass("active");
+            $('ul.tabs').tabs();
         }
 
         // For all links, close the side nav if we are on mobile

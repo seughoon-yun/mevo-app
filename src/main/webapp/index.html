@@ -225,7 +225,7 @@
                         <div class="col s12">
                             <div class="input-wrapper">
                                 <label for="autocomplete">Address Search <span>powered by Google</span></label>
-                                <input id="autocomplete" type="text" placeholder="Enter your address...">
+                                <input id="autocomplete" type="text" placeholder="Enter your address..." onFocus="geolocate()">
                             </div>
                         </div>
                     </div>
@@ -282,15 +282,109 @@
                             <h3>Plan &amp; Billing</h3>
                             <hr/>
                         </div>
+                        <div class="col s12 m8 offset-m2">
+                            <ul class="tabs">
+                                <li class="tab col"><a class="active" href="#mevo-for-me">Mevo for Me</a></li>
+                                <li class="tab col"><a href="#mevo-for-work">Mevo for Work</a></li>
+                            </ul>
+                        </div>
+                        <div id="mevo-for-me" class="col s12 mevo-plans">
+                            <div class="row plans">
+                                <div class="col s12 m4">
+                                    <div class="pricing-wrapper center-align">
+                                        <h6>Basic</h6>
+                                        <p class="subtitle">For occasional use</p>
+                                        <p class="coming-soon">Pricing coming soon</p>
+                                        <a class="btn disabled">Select</a>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="pricing-wrapper center-align">
+                                        <h6>Standard</h6>
+                                        <p class="subtitle">For regular use</p>
+                                        <p class="coming-soon">Pricing coming soon</p>
+                                        <a class="btn disabled">Select</a>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="pricing-wrapper center-align">
+                                        <h6>Premium</h6>
+                                        <p class="subtitle">For everyday use</p>
+                                        <p class="coming-soon">Pricing coming soon</p>
+                                        <a class="btn disabled">Select</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 center-align">
+                                    <h4>Every Mevo for Me plan includes</h4>
+                                </div>
+                                <div class="col s12 m6 included">
+                                    <p><i class="material-icons left">done</i>Access to any Mevo vehicle</p>
+                                    <p><i class="material-icons left">done</i>Fixed hourly rate</p>
+                                </div>
+                                <div class="col s12 m6 included">
+                                    <p><i class="material-icons left">done</i>Insurance, Fuel, Maintenance</p>
+                                    <p><i class="material-icons left">done</i>Unlock via smartphone app</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mevo-for-work" class="col s12 mevo-plans">
+                            <div class="row plans">
+                                <div class="col s12 m4">
+                                    <div class="pricing-wrapper center-align">
+                                        <h6>Small</h6>
+                                        <p class="subtitle">Get access to a vehicle</p>
+                                        <p class="coming-soon">Pricing coming soon</p>
+                                        <a class="btn disabled">Select</a>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="pricing-wrapper center-align">
+                                        <h6>Medium</h6>
+                                        <p class="subtitle">Replace a lease vehicle</p>
+                                        <p class="coming-soon">Pricing coming soon</p>
+                                        <a class="btn disabled">Select</a>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="pricing-wrapper center-align">
+                                        <h6>Large</h6>
+                                        <p class="subtitle">Supplement your fleet</p>
+                                        <p class="coming-soon">Pricing coming soon</p>
+                                        <a class="btn disabled">Select</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 center-align">
+                                    <h4>Every Mevo for Work plan includes</h4>
+                                </div>
+                                <div class="col s12 m6 included">
+                                    <p><i class="material-icons left">done</i>Access to any Mevo vehicle</p>
+                                    <p><i class="material-icons left">done</i>Detailed reporting</p>
+                                    <p><i class="material-icons left">done</i>Fixed hourly rate</p>
+                                </div>
+                                <div class="col s12 m6 included">
+                                    <p><i class="material-icons left">done</i>Insurance, Fuel, Maintenance</p>
+                                    <p><i class="material-icons left">done</i>Unlimited insured drivers</p>
+                                    <p><i class="material-icons left">done</i>Unlock via smartphone app</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col s12 center-align">
-                            <p>Pricing coming soon</p>
-                            <p>In the meantime, if you complete your profile and take our 2-minute survey below, we'll credit your account with an hour on us when we launch!</p>
-                            <a href="" class="survey-button btn btn-accent">Take Survey</a>
+                    <div id="waitlist-survey" class="row">
+                        <div class="col s12 center-align not-completed">
+                            <div class="wrapper">
+                                <p>We'll notify you when plan pricing is finalised.</p>
+                                <p class="waitlist-survey-not-completed">In the meantime, if you complete your profile and take our 2-minute survey below, we'll credit your account with an hour on us when we launch!</p>
+                                <a href="" class="waitlist-survey-not-completed survey-button btn btn-accent">Take Survey</a>
+                                <p class="waitlist-survey-completed">Thanks for taking our 2-minute survey - stay tuned for more ways to earn credit as we get closer to launching!</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="spacer"></div>
             </section>
         </main>
 

@@ -322,9 +322,142 @@ nav a {
     pointer-events: none;
 }
 
-#account .spacer {
+.spacer {
     height: 150px;
     width: 100%;
+}
+
+#billing h4 {
+    color: #FA6219;
+    font-size: 25px;
+    font-family: 'montserrathairline';
+}
+
+.mevo-plans {
+    padding-bottom: 30px !important;
+}
+
+.mevo-plans .row {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mevo-plans .row.plans {
+    max-width: 550px;
+}
+
+.tabs {
+    background-color: transparent;
+}
+
+.tabs .tab a {
+    color: #FFAF66;
+}
+
+.tabs .tab a.active {
+    color: #FA6219;
+}
+
+.tabs .tab a:hover {
+    color: #FF6D27;
+} 
+
+.tabs .tab.disabled a {
+    color: #D1D1D1;
+}
+
+.tabs .indicator {
+    background-color: #FA6219;
+}
+
+.pricing-wrapper {
+    border-radius: 6px;
+    border: 2px solid #989898;
+    margin: 40px 0px 30px 0px;
+    padding: 10px;
+    background-color: white;
+}
+
+.pricing-wrapper h6 {
+    text-transform: uppercase;
+    color: #FA6219;
+}
+
+.pricing-wrapper .subtitle {
+    font-size: 12px;
+    padding: 0px;
+    font-family: 'montserrathairline';
+}
+
+.pricing-wrapper .coming-soon {
+    color: #0B4D68;
+    font-size: 22px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    margin-top: 10px
+}
+
+.pricing-wrapper .monthly {
+    font-size: 22px;
+}
+
+.pricing-wrapper .monthly span {
+    font-size: 10px
+}
+
+.pricing-wrapper .hourly {
+    color: #0B4D68;
+    font-size: 35px;
+    width: 65px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.pricing-wrapper .hourly span {
+    font-size: 10px;
+    position: absolute;
+    bottom: 5px;
+    right: -10px;
+}
+
+.included p {
+    padding: 5px 0px;
+}
+
+#waitlist-survey {
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+#waitlist-survey .col {
+    padding: 0px 0.75rem;
+}
+
+#waitlist-survey .col .wrapper{
+    border-radius: 6px;
+    border: 2px solid #989898;
+    padding: 10px 20px 20px 20px;
+    background-color: white;
+}
+
+#waitlist-survey .waitlist-survey-completed {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .pricing-wrapper {
+        max-width: 160px;
+        margin: 10px auto;
+    }
+
+    .pricing-wrapper .subtitle {
+        font-family: 'montserratlight';
+    }
+    
+    #billing h4 {
+        font-size: 20px;
+    }
 }
 
 input:not([type]), input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
@@ -495,7 +628,7 @@ input:-ms-input-placeholder {
         height: 64px;
         padding: 16px 0px;
     }
-    
+
     .app-pane {
         min-height: -moz-calc(100vh - 64px);
         min-height: -webkit-calc(100vh - 64px);

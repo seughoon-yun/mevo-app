@@ -46,11 +46,20 @@ function initialiseApp(user, isNewUser) {
             firstname = user.name;
         }
     }
+    
+    console.log("Survey completed: " + user.waitlist_survey_completed);
 
-    // Make the survey link
-    surveyLink = surveyLink + "firstname=" + firstname + "&email=" + user.email;
+    // See if the user has done our waitlist survey
+    if (user.waitlist_survey_completed) {
+        // Hide the survey link
+        $('.waitlist-survey-not-completed').hide();
+        $('.waitlist-survey-completed').show();
+    } else {
+        // Make the survey link
+        surveyLink = surveyLink + "firstname=" + firstname + "&email=" + user.email;
 
-    $('.survey-button').attr("href", surveyLink);
+        $('.survey-button').attr("href", surveyLink);
+    }
 
     // Check that we're not being blocked by aggressive adblockers
     console.log("Intercom: " + intercomLoaded);
@@ -61,7 +70,7 @@ function initialiseApp(user, isNewUser) {
         });
     } else {
         parseParameters();
-        
+
         $('#login').css('opacity', 0);
         setTimeout(setAppState("logged-in"), 1000);
     }
@@ -127,6 +136,34 @@ function saveData() {
                     $this.data("initial", $this.val());
                 });
                 Materialize.toast('Changes saved', 4000);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        });
+    }
+}
+
+function saveField(key, value) {
+    if (window.currentUser && window.id_token) {
+
+        currentUser[key] = value;
+
+        var payload = {
+            token: id_token,
+            profile: currentUser
+        };
+
+        var payloadString = JSON.stringify(payload);
+
+        $.ajax("/ajax", {
+            method: "PUT",
+            data: payloadString,
+            dataType: "text",
+            success: function(user, status, jqXHR) {
+                console.log(user);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
@@ -210,10 +247,18 @@ function setAccountLoading(loading) {
 function parseParameters() {
     var pageURL = window.location.href;
     var surveyCompleted = url('?waitlist_survey_completed', pageURL);
-    
+
     if (surveyCompleted === "true") {
         console.log("Survey Completed");
-        Intercom('trackEvent', 'survey_completed');
+        Intercom('trackEvent', 'waitlist_survey_completed');
+        saveField('waitlist_survey_completed', 'true');
+
+        // Hide the survey link
+        $('.waitlist-survey-not-completed').hide();
+        $('.waitlist-survey-completed').show();
+        
+        // Clear the param
+        history.pushState(null, null, window.location.href.substring(0, window.location.href.indexOf('?')));
     }
 }
 
